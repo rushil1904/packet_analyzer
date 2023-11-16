@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from threading import Thread
 import time
+import subprocess
+
 
 class PacketAnalyzerGUI:
     def __init__(self, root):
@@ -13,10 +15,16 @@ class PacketAnalyzerGUI:
 
         # GUI components
         self.interface_label = ttk.Label(root, text="Select Interface:")
-        self.interface_combobox = ttk.Combobox(root, values=self.get_network_interfaces())
+        self.interface_combobox = ttk.Combobox(
+            root, values=self.get_network_interfaces()
+        )
 
-        self.start_button = ttk.Button(root, text="Start Capture", command=self.start_capture)
-        self.stop_button = ttk.Button(root, text="Stop Capture", command=self.stop_capture)
+        self.start_button = ttk.Button(
+            root, text="Start Capture", command=self.start_capture
+        )
+        self.stop_button = ttk.Button(
+            root, text="Stop Capture", command=self.stop_capture
+        )
 
         self.packet_stats_label = ttk.Label(root, text="Packet Statistics:")
         self.packet_stats_text = tk.Text(root, height=10, width=50)
@@ -89,7 +97,9 @@ class PacketAnalyzerGUI:
             src_port = packet[TCP].sport
             dst_port = packet[TCP].dport
             flags = packet[TCP].flags
-            print(f"Source Port: {src_port}, Destination Port: {dst_port}, TCP Flags: {flags}")
+            print(
+                f"Source Port: {src_port}, Destination Port: {dst_port}, TCP Flags: {flags}"
+            )
         elif UDP in packet:
             src_port = packet[UDP].sport
             dst_port = packet[UDP].dport
@@ -102,12 +112,16 @@ class PacketAnalyzerGUI:
             for protocol, count in self.packet_counts.items():
                 stats_text += f"{protocol}: {count}\n"
                 self.packet_count_data[protocol].append(count)
-                self.packet_counts[protocol] = 0  # Reset packet count for the next interval
+                self.packet_counts[
+                    protocol
+                ] = 0  # Reset packet count for the next interval
 
             # Ensure that timestamps have the same length as the data lists in packet_count_data
             for protocol in self.packet_count_data:
                 while len(self.packet_count_data[protocol]) < len(self.timestamps):
-                    self.packet_count_data[protocol].append(0)  # Fill with zeros if needed
+                    self.packet_count_data[protocol].append(
+                        0
+                    )  # Fill with zeros if needed
 
             self.timestamps.append(time.time())
 
@@ -125,11 +139,19 @@ class PacketAnalyzerGUI:
         self.ax.set_xlabel("Time (s)")
         self.ax.set_ylabel("Packet Count")
         for protocol in self.packet_count_data:
-            self.ax.plot(self.timestamps, self.packet_count_data[protocol], label=protocol)
+            self.ax.plot(
+                self.timestamps, self.packet_count_data[protocol], label=protocol
+            )
         self.ax.legend()
         self.canvas.draw()
 
+
 if __name__ == "__main__":
+    # Check if the user is running as root
+    if os.geteuid() != 0:
+        print("Please run the script as root (sudo).")
+        sys.exit(1)
+
     root = tk.Tk()
     app = PacketAnalyzerGUI(root)
     root.mainloop()
