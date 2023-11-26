@@ -99,67 +99,26 @@ class PacketAnalyzerApp(QMainWindow):
             # Process events to keep the GUI responsive
             QApplication.processEvents()
 
-        # Plot the final graphs
-        self.plot_final_graphs(
-            time_points,
-            udp_counts,
-            tcp_counts,
-            ip_counts,
-            others_counts,
-            source_ip_counts,
-            destination_ip_counts,
+        # Time series heatmap for protocol activity
+        df = pd.DataFrame(
+            {
+                "UDP": udp_counts,
+                "TCP": tcp_counts,
+                "IP": ip_counts,
+                "Others": others_counts,
+            },
+            index=time_points,
         )
-
-    def plot_final_graphs(
-        self,
-        time_points,
-        udp_counts,
-        tcp_counts,
-        ip_counts,
-        others_counts,
-        source_ip_counts,
-        destination_ip_counts,
-    ):
-        plt.figure(figsize=(15, 10))
-
-        # Line plot for protocol counts
-        plt.subplot(2, 2, 1)
-        plt.plot(time_points, udp_counts, label="UDP")
-        plt.plot(time_points, tcp_counts, label="TCP")
-        plt.plot(time_points, ip_counts, label="IP")
-        plt.plot(time_points, others_counts, label="Others")
-        plt.xlabel("Time (seconds)")
-        plt.ylabel("Packet Count")
-        plt.title("Packet Analysis over Time")
-        plt.legend()
-        plt.grid(True)
-
-        # Pie chart for protocol distribution
-        plt.subplot(2, 2, 2)
-        labels = ["UDP", "TCP", "IP", "Others"]
-        sizes = [udp_counts[-1], tcp_counts[-1], ip_counts[-1], others_counts[-1]]
-        plt.pie(sizes, labels=labels, autopct="%1.1f%%", startangle=140)
-        plt.title("Protocol Distribution")
-
-        # Bar chart for top source IP addresses
-        plt.subplot(2, 2, 3)
-        top_source_ips = source_ip_counts.most_common(5)
-        source_ips, source_counts = zip(*top_source_ips)
-        plt.bar(source_ips, source_counts, color="blue", alpha=0.7)
-        plt.xlabel("Source IP Address")
-        plt.ylabel("Packet Count")
-        plt.title("Top Source IP Addresses")
-
-        # Bar chart for top destination IP addresses
-        plt.subplot(2, 2, 4)
-        top_destination_ips = destination_ip_counts.most_common(5)
-        destination_ips, destination_counts = zip(*top_destination_ips)
-        plt.bar(destination_ips, destination_counts, color="orange", alpha=0.7)
-        plt.xlabel("Destination IP Address")
-        plt.ylabel("Packet Count")
-        plt.title("Top Destination IP Addresses")
-
-        plt.tight_layout()
+        sns.heatmap(
+            df.T,
+            cmap="viridis",
+            annot=True,
+            fmt="d",
+            cbar_kws={"label": "Packet Count"},
+        )
+        plt.title("Protocol Activity over Time")
+        plt.xlabel("Time")
+        plt.ylabel("Protocol")
         plt.show()
 
 
