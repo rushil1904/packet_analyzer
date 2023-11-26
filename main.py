@@ -29,10 +29,29 @@ class PacketAnalyzerApp(QMainWindow):
         # Create a button to start the packet analysis
         self.start_button = QPushButton("Start Analysis", self)
         self.start_button.clicked.connect(self.start_analysis)
+
+        # Apply a modern stylesheet to the button
+        self.start_button.setStyleSheet(
+            """
+            QPushButton {
+                background-color: #3498db;
+                color: white;
+                padding: 10px 20px;
+                font-size: 18px;
+                border: none;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #2980b9;
+            }
+        """
+        )
+
         layout.addWidget(self.start_button)
 
         # Create a canvas for the matplotlib plots
         self.canvas = PlotCanvas(self, width=5, height=4)
+
         layout.addWidget(self.canvas)
 
         central_widget.setLayout(layout)
