@@ -21,7 +21,8 @@ The Packet Analyzer App is a PyQt-based graphical user interface (GUI) applicati
 Running the app:
 
 ```bash
-python main.py
+python main.py 
+```
 
 ## How to Use
 
