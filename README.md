@@ -49,7 +49,7 @@ python main.py
 
 ## License
 
-This Packet Analyzer App is licensed under the MIT License.
+This Packet Analyzer App is licensed under the [MIT License](https://github.com/rushil1904/packet_analyzer/blob/master/LICENSE).
 
 ## Acknowledgments
 
