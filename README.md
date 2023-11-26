@@ -19,7 +19,9 @@ The Packet Analyzer App is a PyQt-based graphical user interface (GUI) applicati
    pip install PyQt5 scapy matplotlib seaborn
 
 Running the app:
-python your_script_name.py
+
+```bash
+python main.py
 
 ## How to Use
 
