@@ -31,6 +31,14 @@ python main.py
 3. **Visualizations will be updated in real-time during the analysis.**
 4. **After completion, the final analysis results, including line plots, pie charts, and bar charts, will be displayed.**
 
+<p align="float">
+<img src="https://raw.githubusercontent.com/rushil1904/packet_analyzer/main/media/Figure_2.png" alt="dymaic_visualisation" width="500" />
+<img src="https://raw.githubusercontent.com/rushil1904/packet_analyzer/main/media/2023-12-04%2018.45.45.jpg" alt="heatmap" width="500" />
+   <p align = "center">
+<img src="https://raw.githubusercontent.com/rushil1904/packet_analyzer/main/media/packet_analyzer%202023-11-26%20at%2012.51.53%E2%80%AFAM.png" alt="customisation_1" width=350 />
+<img src="https://raw.githubusercontent.com/rushil1904/packet_analyzer/main/media/packet_analyzer%202023-11-26%20at%2012.51.59%E2%80%AFAM.png" alt="customisation_2" width=350 /></p>
+</p>
+
 ## Customization
 
 - **Duration:** Adjust the `duration_seconds` variable in the script to change the analysis duration.
